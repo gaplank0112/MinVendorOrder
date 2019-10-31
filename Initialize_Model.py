@@ -45,15 +45,15 @@ def set_vendor_order_details():
         debug_obj.trace(high, str(row))
 
         product_name = get_str_element(row, 2)
-        debug_obj.trace(low, "HERE %s" % product_name)
+        # debug_obj.trace(low, "HERE %s" % product_name)
         site_name = get_str_element(row, 1)
-        debug_obj.trace(low, "HERE %s" % site_name)
+        # debug_obj.trace(low, "HERE %s" % site_name)
         vendor_minimum_quantity = get_float_element(row, 5)
-        debug_obj.trace(low, "HERE %s" % vendor_minimum_quantity)
+        # debug_obj.trace(low, "HERE %s" % vendor_minimum_quantity)
         minimum_order_qty = get_float_element(row, 12)
-        debug_obj.trace(low, "HERE %s" % minimum_order_qty)
+        # debug_obj.trace(low, "HERE %s" % minimum_order_qty)
         order_lot_size = get_float_element(row, 13)
-        debug_obj.trace(low, "HERE %s" % order_lot_size)
+        # debug_obj.trace(low, "HERE %s" % order_lot_size)
 
         site_obj = sim_server.Site(site_name)
         site_product_obj = site_obj.getsiteproduct(product_name)
@@ -69,9 +69,9 @@ def set_vendor_product_list():
     debug_obj.trace(med, "  Setting site-vendor-product dictionary")
     site_vendor_products_dict = {}
     for site_obj in model_obj.sites:
-        debug_obj.trace(high,'   Site - %s' % site_obj.name)
+        # debug_obj.trace(high,'   Site - %s' % site_obj.name)
         for sp_obj in site_obj.products:
-            debug_obj.trace(high,'   Product - %s' % sp_obj.product.name)
+            # debug_obj.trace(high,'   Product - %s' % sp_obj.product.name)
             if len(sp_obj.sources) > 1:
                 debug_obj.logerror("Model initialization: Too many sources for product %s at site %s. Only one"
                                    "source allowed." % (sp_obj.product.name, site_obj.name))
@@ -80,11 +80,11 @@ def set_vendor_product_list():
             try:
                 source_name = sp_obj.sources[0].name
             except:
-                #we skip items with no source
+                # we skip items with no source
                 continue
             product_name = sp_obj.product.name
-            debug_obj.trace(low, "    Add to site-vendor-product dictionary %s %s %s" % (site_obj.name,source_name,
-                                                                                       product_name))
+            # debug_obj.trace(low, "    Add to site-vendor-product dictionary %s %s %s" % (site_obj.name,source_name,
+            #                                                                           product_name))
             try:
                 s1 = site_vendor_products_dict[site_obj.name]
             except:
@@ -100,13 +100,13 @@ def set_vendor_product_list():
 
     model_obj.setcustomattribute("SiteVendorProductDictionary", site_vendor_products_dict)
 
-    debug_obj.trace(high,"##### site_vendor_products_dict ####")
-    debug_obj.trace(high, str(site_vendor_products_dict))
-    debug_obj.trace(high,"##################################")
+    # debug_obj.trace(high,"##### site_vendor_products_dict ####")
+    # debug_obj.trace(high, str(site_vendor_products_dict))
+    # debug_obj.trace(high,"##################################")
 
 
 def set_vendor_lead_times():
-    debug_obj.trace(med,"  Setting lead times")
+    # debug_obj.trace(med,"  Setting lead times")
     filename = "siteproduct.dat"
 
     datafile = model_obj.modelpath + '\\' + filename
@@ -118,12 +118,12 @@ def set_vendor_lead_times():
 
         if row[16] != "":
             product_name = get_str_element(row, 2)
-            debug_obj.trace(low, "HERE %s" % product_name)
+            # debug_obj.trace(low, "HERE %s" % product_name)
             site_name = get_str_element(row, 1)
-            debug_obj.trace(low, "HERE %s" % site_name)
+            # debug_obj.trace(low, "HERE %s" % site_name)
             lead_time = get_str_element(row, 16)
-            debug_obj.trace(low, "HERE %s" % lead_time)
-            debug_obj.trace(low, "%s %s %s "% (site_name, product_name, lead_time ))
+            # debug_obj.trace(low, "HERE %s" % lead_time)
+            # debug_obj.trace(low, "%s %s %s "% (site_name, product_name, lead_time ))
             lead_time = float(check_lead_time(lead_time, site_name, product_name))
             site_obj = sim_server.Site(site_name)
             site_product_obj = site_obj.getsiteproduct(product_name)
@@ -139,6 +139,7 @@ def check_lead_time(val,site_name, product_name):  # This checks for time units 
             debug_obj.logerror("Setting lead time to 1.0 days for site %s and product %s." % (site_name, product_name))
             return 1.0
     return val
+
 
 def set_dos_output():
     debug_obj.trace(0,'scenarioid, currentreplication, current_date, site_name, '
